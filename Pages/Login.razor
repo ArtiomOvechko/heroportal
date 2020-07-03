@@ -1,0 +1,42 @@
+@using Core
+
+@inject IHeroApi API
+@inject NavigationManager Navigation
+
+@page "/login"
+
+<div class="@ContentClass"> 
+    <h1>Enter the Dungeon</h1>
+    <button class="btn btn-primary" @onclick="LogIn">Go</button>
+</div>
+<div class="@LoadingClass"> 
+    <h1>Loading...</h1>
+</div>
+
+@code 
+{
+    bool isLoading = false;
+
+    string ContentClass => isLoading ? "hidden" : null;
+    string LoadingClass => isLoading ? null : "hidden";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) 
+    {
+        API.LoggedIn += (sender, e) => 
+        {
+            isLoading = false;
+        };
+        await API.LogOut();
+    }
+
+    private async Task LogIn() 
+    {
+        isLoading = true;
+        await API.LogIn(new LoginModel() 
+        {
+            Email = "",
+            Password = ""
+        });
+        isLoading = false;
+    }
+}

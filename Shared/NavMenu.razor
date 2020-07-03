@@ -1,0 +1,83 @@
+﻿@using Core
+
+@inject HttpClient Http
+@inject NavigationManager Navigation;
+@inject IHeroApi API
+
+<div class="@SideBarCssClass">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">HeroPortal</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="counter">
+                    <span class="oi oi-plus" aria-hidden="true"></span> Counter
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="fetchdata">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="login">
+                    <span class="oi oi-list-rich" aria-hidden="true"></span> Log out
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+    private bool hideMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private string SideBarCssClass => hideMenu ? "hidden" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            API.LoggedOut += async (sender, e) => 
+            {
+                if (!hideMenu)
+                {
+                    await ProcessAuthorization();
+                }
+            }; 
+
+            API.LoggedIn += async (sender, e) => 
+            {
+                await ProcessAuthorization();
+            };           
+            await ProcessAuthorization();
+        }
+    }
+
+    private async Task ProcessAuthorization() 
+    {
+        bool isAuthorized = await API.IsLoggedIn();
+        hideMenu = !isAuthorized;
+        if (!isAuthorized)
+        {
+            Navigation.NavigateTo("/login");
+        }
+    }
+}
