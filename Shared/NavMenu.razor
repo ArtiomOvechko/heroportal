@@ -6,7 +6,7 @@
 @inject ILogger Logger
 
 
-<div class="@SideBarCssClass">
+<div class="sidebar @SideBarCssClass">
     <div class="top-row pl-4 navbar navbar-dark">
         <a class="navbar-brand" href="">HeroPortal</a>
         <button class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -57,23 +57,24 @@
     {
         if (firstRender)
         {
-            API.LoggedOut += async (sender, e) => 
+            API.LoggedOut += async (sender, e) =>
             {
                 if (!hideMenu)
                 {
                     await ProcessAuthorization();
                 }
-            }; 
+            };
 
-            API.LoggedIn += async (sender, e) => 
+            API.LoggedIn += async (sender, e) =>
             {
                 await ProcessAuthorization();
-            };           
+                Navigation.NavigateTo("/");
+            };
             await ProcessAuthorization();
         }
     }
 
-    private async Task ProcessAuthorization() 
+    private async Task ProcessAuthorization()
     {
         await Logger.Info("Processing auth...");
 
@@ -86,5 +87,7 @@
         {
             Navigation.NavigateTo("/login");
         }
+
+        StateHasChanged(); ;
     }
 }
