@@ -6,26 +6,37 @@ namespace Core
     class MockHeroApi : IHeroApi
     {
         readonly IInteropService _interopService;
+        readonly ILogger _logger;
 
         public event EventHandler LoggedOut;
 
         public event EventHandler LoggedIn;
 
-        public MockHeroApi(IInteropService interopService) 
+        public MockHeroApi(
+            IInteropService interopService,
+            ILogger logger) 
         {
             _interopService = interopService;
+            _logger = logger;
         }
 
         public async Task<bool> IsLoggedIn() 
         {
-            return !string.IsNullOrEmpty(await _interopService.GetLocalStorageItem("auth"));
+            string authData = await _interopService.GetLocalStorageItem("auth");
+            await _logger.Info($"auth data internals: {authData}");
+
+            return !string.IsNullOrEmpty(authData) && !string.Equals(authData, "null");
         }
 
         public async Task<bool> LogOut() 
         {
+            await _logger.Info("Logging out...");
+
             TaskCompletionSource<bool> result = new TaskCompletionSource<bool>();
 
             result.SetResult(true);
+
+            await _logger.Info("Set auth to null");
             await _interopService.SetLocalStorageItem("auth", null);
 
             LoggedOut?.Invoke(this, new EventArgs());
@@ -92,29 +103,36 @@ namespace Core
                 new NameModel() { Id = 4, Name = "Champion" }
             });
 
-            return result.Task;        }
+            return result.Task;        
+        }
 
         public async Task<ProfileModel> LogIn(LoginModel model)
         {
+            Task loggingTask = _logger.Info("Logging in...");
+
             await Task.Delay(2000);
 
-            TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
-            result.SetResult(new ProfileModel() 
+            return await loggingTask.ContinueWith(async (task) => 
             {
-                Id = 1,
-                Name = "Artem Ovechko",
-                Nickname = "AJ",
-                ImageUrl = "https://1drv.ms/u/s!Au2NFUrUjmCoi6ZofLY4zWDRh7aPrA",
-                Race = 1,
-                Rank = 1,
-                GoldCoins = 999,
-                Email = "ovechko.a@dbbest.com"
-            });
-            await _interopService.SetLocalStorageItem("auth", "OK");
+                TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
+                result.SetResult(new ProfileModel() 
+                {
+                    Id = 1,
+                    Name = "Artem Ovechko",
+                    Nickname = "AJ",
+                    ImageUrl = "https://1drv.ms/u/s!Au2NFUrUjmCoi6ZofLY4zWDRh7aPrA",
+                    Race = 1,
+                    Rank = 1,
+                    GoldCoins = 999,
+                    Email = "ovechko.a@dbbest.com"
+                });
+                await _logger.Info("Set auth to OK");
+                await _interopService.SetLocalStorageItem("auth", "OK");
 
-            LoggedIn?.Invoke(this, new EventArgs());
+                LoggedIn?.Invoke(this, new EventArgs());
 
-            return await result.Task;
+                return await result.Task;
+            }).Unwrap();
         }
 
         public Task<ProfileModel> UpdateProfile(ProfileUpdateModel model)

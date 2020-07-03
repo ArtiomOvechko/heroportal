@@ -3,6 +3,8 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation;
 @inject IHeroApi API
+@inject ILogger Logger
+
 
 <div class="@SideBarCssClass">
     <div class="top-row pl-4 navbar navbar-dark">
@@ -73,7 +75,12 @@
 
     private async Task ProcessAuthorization() 
     {
+        await Logger.Info("Processing auth...");
+
         bool isAuthorized = await API.IsLoggedIn();
+
+        await Logger.Info($"Is authorized: {isAuthorized}");
+
         hideMenu = !isAuthorized;
         if (!isAuthorized)
         {

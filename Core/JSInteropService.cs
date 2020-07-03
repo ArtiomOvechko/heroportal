@@ -13,6 +13,11 @@ namespace Core
             _jsRuntime = jSRuntime;
         }
 
+        public Task ConsoleLog(string value)
+        {
+            return _jsRuntime.InvokeVoidAsync("log", value).AsTask();
+        }
+
         public Task<string> GetLocalStorageItem(string key)
         {
             return _jsRuntime.InvokeAsync<string>("getLocalStorageItem", key).AsTask();

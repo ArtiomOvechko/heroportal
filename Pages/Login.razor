@@ -2,6 +2,7 @@
 
 @inject IHeroApi API
 @inject NavigationManager Navigation
+@inject ILogger Logger
 
 @page "/login"
 
@@ -22,11 +23,15 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender) 
     {
-        API.LoggedIn += (sender, e) => 
+        if (firstRender)
         {
-            isLoading = false;
-        };
-        await API.LogOut();
+            API.LoggedIn += (sender, e) => 
+            {
+                isLoading = false;
+            };
+            
+            await API.LogOut();
+        }
     }
 
     private async Task LogIn() 
