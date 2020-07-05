@@ -1,7 +1,58 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
+    font-size: 100% !important;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.profile-nickname {
+    margin-top: 0px !important;
+}
+
+.profile-race {
+    margin-bottom: 0px !important;
+}
+
+.profile-section {
+    margin-top: 20px;
+}
+
+.body-force {
+    font-size: 100% !important;
+}
+
+.achievement-badge {
+    text-align: center;
+    color: initial !important;
+}
+
+.team-member-icon {
+    margin-bottom: 0px !important;
+}
+
+.achievement-badge:hover {
+    text-decoration: none !important;
+}
+
+.badge-select:hover {
+    cursor: pointer;
+}
+
+.badge-selected {
+    border: lime 4px solid;
+}
+
+.badge-blocked:hover {
+    cursor: default;
+    border: none;
+}
+
+.badge-blocked > img {
+    filter: grayscale();
+}
+
+.leaderboard-icon {
+    margin: 0px 6px 0px 0px !important;
 }
 
 a, .btn-link {

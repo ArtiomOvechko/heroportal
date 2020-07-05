@@ -1,0 +1,30 @@
+@page "/badges"
+
+<div class="page-header">
+  <h1>Badges</h1>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">All</h3>
+  </div>
+  <div class="panel-body" style="width: 100%">
+    <div class="d-flex flex-wrap justify-content-start">
+        @for (int i = 0; i < 30; i++) {
+        <div class="d-flex flex-column justify-content-between">
+            <div class="d-flex justify-content-center">
+                <div href="#" class="thumbnail achievement-badge">
+                    <img src="https://aj-heroportal-files.s3.amazonaws.com/Elf.png" alt="..." width="64px" height="64px">
+                    <div>Cool</div>
+                    <span class="label label-warning">24 coins</span>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+  </div>
+</div>
+
+@code {
+
+}

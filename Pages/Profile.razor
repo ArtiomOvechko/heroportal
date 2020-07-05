@@ -1,41 +1,125 @@
 ﻿@using Core
 
+@inject IInteropService Interop;
 @inject IHeroApi API
 @inject ILogger Logger;
 
 @page "/"
 
-    <div class="profile-wrapper">
-        <div class="profile-header">
-            <div class="profile-header-left">
-                <div class="profile-avatar-wrapper" style="background-image: url(@model.ImageUrl)">
+<div class="page-header">
+  <h1>Profile</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="media">
+            <div class="media-left">
+                <a href="#">
+                <img class="media-object" src="@model.ImageUrl" width="128px" height="128px" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <div class="d-flex align-content-stretch flex-column" style="height: 128px;">
+                    <div>
+                        <h2 class="profile-nickname">@model.Nickname</h2>
+                        @model.Name
+                    </div>
+                    <div class="profile-race mt-auto"><h3>@GetRaceName() @GetRankName()</h3></div>
                 </div>
-                <div class="profile-info-wrapper">
-                    <h1>@model.Nickname</h1>
-                    <h1>@model.Name</h1>
-                    <h1>@GetRankName() of @GetRaceName()</h1>
+            </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex align-content-stretch flex-column" style="height: 128px;">
+                <div class="mb-auto">
+                    <div class="d-flex justify-content-between">
+                        <div class="mr-auto"><h4>5 level</h4></div>
+                        <div><h4>45xp to 6 level</h4></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                            <span class="sr-only">60% Complete</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="profile-header-middle">
-
-            </div>
-            <div class="profile-header-right">
-
-            </div>
-        </div>
-
-        <div class="profile-header profile-box">
-            <h1 class="box-title">Skills</h1>
-        </div>
-
-        <div class="profile-header profile-box">
-            <h1 class="box-title">Achievments</h1>
-        </div>
-
-        <div class="profile-header profile-box">
-            <h1 class="box-title">Badges</h1>
         </div>
     </div>
+    <div class="row profile-section">
+        <div class="col">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Skills</h3>
+                </div>
+                <div class="panel-body overflow-auto" style="max-height:186px;">
+                    <div class="container">
+                        @for (int i = 0; i < 10; i++) {
+                            <div class="row">
+                                <div class="col-3">
+                                    .Net Core
+                                </div>
+                                <div class="col-2 d-flex flex-column justify-content-center">
+                                    <div class="d-flex justify-content-end">
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-flex align-content-stretch flex-column">
+                                    <div class="mb-auto">
+                                        225 points
+                                    </div>
+                                    <div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                <span class="sr-only">60% Complete</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Achievements</h3>
+                </div>
+                <div class="panel-body d-flex justify-content-between">
+                    @for (int i = 0; i < 6; i++) {
+                        <div>
+                            <a href="#" data-toggle="tooltip" title="Get 3 starts in a skill" class="thumbnail achievement-badge">
+                                <img src="https://aj-heroportal-files.s3.amazonaws.com/Wizard.png" alt="..." width="64px" height="64px">
+                                Geek
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Badges</h3>
+                </div>
+                <div class="panel-body d-flex justify-content-between">
+                    @for (int i = 0; i < 6; i++) {
+                        <div>
+                            <a href="#" class="thumbnail achievement-badge">
+                                <img src="@model.ImageUrl" alt="..." width="64px" height="64px">
+                                Geek
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @code {
     ProfileModel model;
@@ -70,6 +154,14 @@
             model = await API.GetProfile();
             races = await API.GetRaces();
             ranks = await API.GetRanks();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)  
+    {
+        if (firstRender) 
+        {
+            await Interop.InitUIComponents();
         }
     }
 }

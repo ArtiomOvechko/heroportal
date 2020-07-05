@@ -10,5 +10,7 @@ namespace Core
         Task SetLocalStorageItem(string key, string value);
 
         Task ConsoleLog(string value);
+
+        Task InitUIComponents();
     }
 }

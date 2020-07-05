@@ -7,13 +7,29 @@
     <title>HeroPortal</title>
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/signin.css" rel="stylesheet" />
-    <link href="css/profile.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="js/chart.js"></script>
 </head>
 
-<body>
-    <app>Loading...</app>
+<body class="body-force">
+    <app>
+        <div class="d-flex justify-content-center" style="height: 100%;width: 100%;"> 
+            <div class="d-flex flex-column justify-content-center">
+                <div>
+                    <a href="#" style="border: none;" class="thumbnail achievement-badge">
+                        <img src="./images/SceletonMovesRight.gif" alt="..." width="128px" height="128px">
+                        <h1>Loading...</h1>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </app>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.
@@ -32,6 +48,53 @@
     function log(value) 
     {
         console.log(value);
+    }
+
+    function init() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    function drawChart() {
+        try {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Denys Seliukov', 'Miahkov Andrei', 'Artem Lavrov', 'Koryagin Alexey', 'Kate Polushyna', 'Iryna Garbuz'],
+                datasets: [{
+                    label: '# of bugs fixed',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+            });
+        } 
+        catch {}
     }
     </script>
     <script src="_framework/blazor.webassembly.js"></script>

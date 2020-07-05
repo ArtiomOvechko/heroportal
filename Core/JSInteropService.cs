@@ -27,5 +27,13 @@ namespace Core
         {
             return _jsRuntime.InvokeVoidAsync("setLocalStorageItem", key, value).AsTask();
         }
+
+        public Task InitUIComponents() 
+        {
+            Task drawTask = _jsRuntime.InvokeVoidAsync("drawChart").AsTask();
+            Task initTask = _jsRuntime.InvokeVoidAsync("init").AsTask();
+
+            return Task.WhenAll(drawTask, initTask);
+        }
     }
 }

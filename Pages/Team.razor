@@ -1,0 +1,84 @@
+@page "/team"
+
+
+<div class="page-header">
+  <h1>My Team</h1>
+</div>
+
+<div class="container overflow-auto">
+    @for (int i =0; i < 20; i++) {
+    <div class="row">
+        <div class="col-2 d-flex flex-column justify-content-center">
+            <div class="d-flex justify-content-end">
+                <a href="#" class="thumbnail team-member-icon">
+                    <img src="https://aj-heroportal-files.s3.amazonaws.com/Elf.png" alt="..." width="128px" height="128px">
+                </a>
+            </div>
+        </div>
+        <div class="col-2 d-flex flex-column justify-content-center">
+            <div>
+                <a href="#">
+                    <h2>Nickname</h2>
+                </a>
+            </div>
+            <div>
+                <h5>Denys Seliukov</h5>
+            </div>
+            <div>
+                <h3>Elf General</h3>
+            </div>
+        </div>
+        <div class="col-2">
+            5 level
+        </div>
+        <div class="col-6 d-flex flex-column justify-content-center">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">Send badge</button>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Send badge</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body container overflow-auto" style="height: 256px; width: 100%;">
+        <div class="row">
+            Available gold coins: 114
+        </div>
+        <div class="row">
+            <div class="d-flex flex-wrap justify-content-between">
+                @for (int i = 0; i < 30; i++) {
+                <div class="d-flex flex-column justify-content-between">
+                    <div class="d-flex justify-content-center">
+                        <div href="#" class="thumbnail achievement-badge badge-select badge-selected">
+                            <img src="https://aj-heroportal-files.s3.amazonaws.com/Elf.png" alt="..." width="64px" height="64px">
+                            <div>Cool</div>
+                            <span class="label label-warning">24 coins</span>
+                            @* <span class="label label-danger">24 coins</span> *@
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+
+}
