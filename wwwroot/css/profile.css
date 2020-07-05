@@ -1,0 +1,67 @@
+﻿.profile-wrapper {
+    position: fixed;
+    width: 85%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x:scroll;
+}
+
+.profile-box {
+    border: black 4px solid;
+}
+
+.box-title {
+    background: white;
+    margin-top: -30px;
+    display: inline-block;
+    padding: 10px;
+}
+
+.profile-header {
+    background: white;
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 4%;
+    height: 30%;
+    margin-bottom: 2%;
+}
+
+.profile-header-left {
+    width: 50%;
+    padding-left: 2%;
+    padding-right: 4%;
+    height: 100%;
+    display: inline-block;
+}
+
+.profile-header-middle {
+    width: 10%;
+    padding-left: 2%;
+    padding-right: 4%;
+    height: 100%;
+    display: inline-block;
+}
+
+.profile-header-right {
+    width: 35%;
+    padding-left: 2%;
+    padding-right: 4%;
+    height: 100%;
+    display: inline-block;
+}
+
+.profile-avatar-wrapper {
+    width: 256px;
+    height: 256px;
+    display: inline-block;
+    margin-top: 10px;
+    background-size: cover;
+}
+
+.profile-info-wrapper {
+    width: 50%;
+    height: 256px;
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+}

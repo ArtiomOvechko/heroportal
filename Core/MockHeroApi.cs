@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using static Core.IHeroApi;
 
 namespace Core
 {
@@ -10,7 +11,7 @@ namespace Core
 
         public event EventHandler LoggedOut;
 
-        public event EventHandler LoggedIn;
+        public event LoginEventHandler LoggedIn;
 
         public MockHeroApi(
             IInteropService interopService,
@@ -50,7 +51,7 @@ namespace Core
             
             source.SetResult(new string[] 
             {
-                "https://1drv.ms/u/s!Au2NFUrUjmCoi6ZofLY4zWDRh7aPrA",
+                "https://9hdcgw.db.files.1drv.com/y4pwvj9th9NMcncsHQjiJ0qnJQjOOEGVpDoQqTROVBxlIGzu8dv1F7sIlXln7NQhAR63XdHxDrKwNsr7KxxAnWGy7evH0_o_MCLcPY_QraN-Z4jnMTC541fTiw5Ik26tzyCSdr7WpKDpbsJ_QGLwAx9uSMBK0ZfkuM1cZBUFJP2dsLorpFqfoXiocOBzppFUjnDYdNspIdoUsIPBXKmakGV_g/Dwarf.png?psid=1",
                 "https://1drv.ms/u/s!Au2NFUrUjmCoi6Zrj5EbD5Ycui1yBA",
                 "https://1drv.ms/u/s!Au2NFUrUjmCoi6ZqME-mGGT_gli1bA?e=c7KSzX"
             });
@@ -67,7 +68,7 @@ namespace Core
                 Id = 1,
                 Name = "Artem Ovechko",
                 Nickname = "AJ",
-                ImageUrl = "https://1drv.ms/u/s!Au2NFUrUjmCoi6ZofLY4zWDRh7aPrA",
+                ImageUrl = "https://9hdcgw.db.files.1drv.com/y4pwvj9th9NMcncsHQjiJ0qnJQjOOEGVpDoQqTROVBxlIGzu8dv1F7sIlXln7NQhAR63XdHxDrKwNsr7KxxAnWGy7evH0_o_MCLcPY_QraN-Z4jnMTC541fTiw5Ik26tzyCSdr7WpKDpbsJ_QGLwAx9uSMBK0ZfkuM1cZBUFJP2dsLorpFqfoXiocOBzppFUjnDYdNspIdoUsIPBXKmakGV_g/Dwarf.png?psid=1",
                 Race = 1,
                 Rank = 1,
                 GoldCoins = 999,
@@ -115,7 +116,7 @@ namespace Core
             return await loggingTask.ContinueWith(async (task) => 
             {
                 TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
-                result.SetResult(new ProfileModel() 
+                ProfileModel response = new ProfileModel()
                 {
                     Id = 1,
                     Name = "Artem Ovechko",
@@ -125,11 +126,12 @@ namespace Core
                     Rank = 1,
                     GoldCoins = 999,
                     Email = "ovechko.a@dbbest.com"
-                });
+                };
+                result.SetResult(response);
                 await _logger.Info("Set auth to OK");
                 await _interopService.SetLocalStorageItem("auth", "OK");
 
-                LoggedIn?.Invoke(this, new EventArgs());
+                LoggedIn?.Invoke(this, response);
 
                 return await result.Task;
             }).Unwrap();

@@ -1,0 +1,75 @@
+﻿@using Core
+
+@inject IHeroApi API
+@inject ILogger Logger;
+
+@page "/"
+
+    <div class="profile-wrapper">
+        <div class="profile-header">
+            <div class="profile-header-left">
+                <div class="profile-avatar-wrapper" style="background-image: url(@model.ImageUrl)">
+                </div>
+                <div class="profile-info-wrapper">
+                    <h1>@model.Nickname</h1>
+                    <h1>@model.Name</h1>
+                    <h1>@GetRankName() of @GetRaceName()</h1>
+                </div>
+            </div>
+            <div class="profile-header-middle">
+
+            </div>
+            <div class="profile-header-right">
+
+            </div>
+        </div>
+
+        <div class="profile-header profile-box">
+            <h1 class="box-title">Skills</h1>
+        </div>
+
+        <div class="profile-header profile-box">
+            <h1 class="box-title">Achievments</h1>
+        </div>
+
+        <div class="profile-header profile-box">
+            <h1 class="box-title">Badges</h1>
+        </div>
+    </div>
+
+@code {
+    ProfileModel model;
+
+    NameModel[] ranks;
+    NameModel[] races;
+
+    string GetRaceName()
+    {
+        NameModel race = races.FirstOrDefault(x => x.Id == model.Race);
+        if (race.Id <= 0)
+        {
+            return "Unknown";
+        }
+        return race.Name;
+    }
+
+    string GetRankName()
+    {
+        NameModel rank = ranks.FirstOrDefault(x => x.Id == model.Race);
+        if (rank.Id <= 0)
+        {
+            return "Unknown";
+        }
+        return rank.Name;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (model.Id == 0)
+        {
+            model = await API.GetProfile();
+            races = await API.GetRaces();
+            ranks = await API.GetRanks();
+        }
+    }
+}

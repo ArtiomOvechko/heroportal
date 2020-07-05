@@ -6,9 +6,11 @@ namespace Core
 {
     interface IHeroApi 
     {
+        delegate void LoginEventHandler(object sender, ProfileModel response);
+
         event EventHandler LoggedOut;
 
-        event EventHandler LoggedIn;
+        event LoginEventHandler LoggedIn;
 
         Task<bool> IsLoggedIn();
 
