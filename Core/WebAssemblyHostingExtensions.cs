@@ -9,7 +9,7 @@ namespace Core
         public static void AddHeroApi(this WebAssemblyHostBuilder builder) 
         {
             builder.Services.AddSingleton(typeof(ILogger), typeof(BrowserLogger));
-            builder.Services.AddSingleton(typeof(IHeroApi), typeof(MockHeroApi));
+            builder.Services.AddScoped(typeof(IHeroApi), typeof(HeroApi));
         }
 
         public static void AddJSInterop(this WebAssemblyHostBuilder builder) 

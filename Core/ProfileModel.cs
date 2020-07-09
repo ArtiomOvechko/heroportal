@@ -1,23 +1,32 @@
+using System.Collections.Generic;
+
 namespace Core
 {
-    struct ProfileUpdateModel 
+    public struct ProfileUpdateModel 
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Nickname { get; set; }
-        public string ImageUrl { get; set; }
-        public short? Race { get; set; }   
+        public int id { get; set; }
+        public string name { get; set; }
+        public string nickName { get; set; }
+        public string imageUrl { get; set; }
+        public short? race { get; set; }   
     }
 
-    struct ProfileModel 
+    public struct ProfileModel 
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Nickname { get; set; }
-        public string ImageUrl { get; set; }
-        public short? Race { get; set; }
-        public short Rank { get; set; }
-        public int GoldCoins { get; set; }
-        public string Email { get; set; }
-     }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string nickName { get; set; }
+        public string imageUrl { get; set; }
+        public short? race { get; set; }
+        public short rank { get; set; }
+        public int goldCoins { get; set; }
+        public string email { get; set; }
+        public int level { get; set; }
+        public int nextlevel { get; set; }
+        public int pointsToNextLevel { get; set; }
+        public int levelCompleted { get; set; }
+        public List<SkillModel> skills { get; set; }
+        public List<AchievementModel> achievements { get; set; }
+        public List<BadgeModel> badges { get; set; }
+    }
 }

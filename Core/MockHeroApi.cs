@@ -65,14 +65,14 @@ namespace Core
 
             result.SetResult(new ProfileModel() 
             {
-                Id = 1,
-                Name = "Artem Ovechko",
-                Nickname = "AJ",
-                ImageUrl = "https://9hdcgw.db.files.1drv.com/y4pwvj9th9NMcncsHQjiJ0qnJQjOOEGVpDoQqTROVBxlIGzu8dv1F7sIlXln7NQhAR63XdHxDrKwNsr7KxxAnWGy7evH0_o_MCLcPY_QraN-Z4jnMTC541fTiw5Ik26tzyCSdr7WpKDpbsJ_QGLwAx9uSMBK0ZfkuM1cZBUFJP2dsLorpFqfoXiocOBzppFUjnDYdNspIdoUsIPBXKmakGV_g/Dwarf.png?psid=1",
-                Race = 1,
-                Rank = 1,
-                GoldCoins = 999,
-                Email = "ovechko.a@dbbest.com"
+                id = 1,
+                name = "Artem Ovechko",
+                nickName = "AJ",
+                imageUrl = "https://9hdcgw.db.files.1drv.com/y4pwvj9th9NMcncsHQjiJ0qnJQjOOEGVpDoQqTROVBxlIGzu8dv1F7sIlXln7NQhAR63XdHxDrKwNsr7KxxAnWGy7evH0_o_MCLcPY_QraN-Z4jnMTC541fTiw5Ik26tzyCSdr7WpKDpbsJ_QGLwAx9uSMBK0ZfkuM1cZBUFJP2dsLorpFqfoXiocOBzppFUjnDYdNspIdoUsIPBXKmakGV_g/Dwarf.png?psid=1",
+                race = 1,
+                rank = 1,
+                goldCoins = 999,
+                email = "ovechko.a@dbbest.com"
             });
 
             return result.Task;
@@ -84,9 +84,9 @@ namespace Core
         
             result.SetResult(new NameModel[] 
             {
-                new NameModel() { Id = 1, Name = "Dwarf" },
-                new NameModel() { Id = 2, Name = "Elf" },
-                new NameModel() { Id = 3, Name = "Mage" }
+                new NameModel() { id = 1, name = "Dwarf" },
+                new NameModel() { id = 2, name = "Elf" },
+                new NameModel() { id = 3, name = "Mage" }
             });
 
             return result.Task;
@@ -98,40 +98,40 @@ namespace Core
         
             result.SetResult(new NameModel[] 
             {
-                new NameModel() { Id = 1, Name = "Newbie" },
-                new NameModel() { Id = 2, Name = "Scholar" },
-                new NameModel() { Id = 3, Name = "Master" },
-                new NameModel() { Id = 4, Name = "Champion" }
+                new NameModel() { id = 1, name = "Newbie" },
+                new NameModel() { id = 2, name = "Scholar" },
+                new NameModel() { id = 3, name = "Master" },
+                new NameModel() { id = 4, name = "Champion" }
             });
 
             return result.Task;        
         }
 
-        public async Task<ProfileModel> LogIn(LoginModel model)
+        public async Task LogIn(LoginModel model)
         {
             Task loggingTask = _logger.Info("Logging in...");
 
             await Task.Delay(2000);
 
-            return await loggingTask.ContinueWith(async (task) => 
+            await loggingTask.ContinueWith(async (task) => 
             {
                 TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
                 ProfileModel response = new ProfileModel()
                 {
-                    Id = 1,
-                    Name = "Artem Ovechko",
-                    Nickname = "AJ",
-                    ImageUrl = "https://aj-heroportal-files.s3.amazonaws.com/Dwarf.png",
-                    Race = 1,
-                    Rank = 1,
-                    GoldCoins = 999,
-                    Email = "ovechko.a@dbbest.com"
+                    id = 1,
+                    name = "Artem Ovechko",
+                    nickName = "AJ",
+                    imageUrl = "https://aj-heroportal-files.s3.amazonaws.com/Dwarf.png",
+                    race = 1,
+                    rank = 1,
+                    goldCoins = 999,
+                    email = "ovechko.a@dbbest.com"
                 };
                 result.SetResult(response);
                 await _logger.Info("Set auth to OK");
                 await _interopService.SetLocalStorageItem("auth", "OK");
 
-                LoggedIn?.Invoke(this, response);
+                LoggedIn?.Invoke(this, "");
 
                 return await result.Task;
             }).Unwrap();
@@ -142,17 +142,42 @@ namespace Core
             TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
             result.SetResult(new ProfileModel() 
             {
-                Id = 1,
-                Name = "Artem Ovechko",
-                Nickname = "AJ",
-                ImageUrl = "https://aj-heroportal-files.s3.amazonaws.com/Dwarf.png",
-                Race = 1,
-                Rank = 1,
-                GoldCoins = 999,
-                Email = "ovechko.a@dbbest.com"
+                id = 1,
+                name = "Artem Ovechko",
+                nickName = "AJ",
+                imageUrl = "https://aj-heroportal-files.s3.amazonaws.com/Dwarf.png",
+                race = 1,
+                rank = 1,
+                goldCoins = 999,
+                email = "ovechko.a@dbbest.com"
             });
 
             return result.Task;
+        }
+
+        public Task<TeamModel[]> GetTeam()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SkillModel[]> GetSkills()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<LeaderModel[]> GetTopLeaders()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BadgeModel[]> GetBadges()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AchievementModel[]> GetAchievements()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Core
 {
     interface IHeroApi 
     {
-        delegate void LoginEventHandler(object sender, ProfileModel response);
+        delegate void LoginEventHandler(object sender, string response);
 
         event EventHandler LoggedOut;
 
@@ -16,7 +16,7 @@ namespace Core
 
         Task<bool> LogOut();
 
-        Task<ProfileModel> LogIn(LoginModel model);
+        Task LogIn(LoginModel model);
         
         Task<NameModel[]> GetRanks();
 
@@ -27,5 +27,13 @@ namespace Core
         Task<ProfileModel> GetProfile();
 
         Task<ProfileModel> UpdateProfile(ProfileUpdateModel model);
+
+        Task<TeamModel[]> GetTeam();
+
+        Task<SkillModel[]> GetSkills();
+
+        Task<LeaderModel[]> GetTopLeaders();
+        Task<BadgeModel[]> GetBadges();
+        Task<AchievementModel[]> GetAchievements();
     }
 }
