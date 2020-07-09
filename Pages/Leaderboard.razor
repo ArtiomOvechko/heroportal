@@ -2,11 +2,12 @@
 
 @using Core
 
-@inject IInteropService Interop
+@inject IInteropService Interop;
+@inject IHeroApi API;
 
 
 <div class="page-header">
-  <h1>Leader Board</h1>
+    <h1>Leader Board</h1>
 </div>
 
 <div class="container">
@@ -15,12 +16,11 @@
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     Choose a skill
-                    <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">Programming</a></li>
-                    <li><a href="#">Communication</a></li>
-                    <li><a href="#">Bugfixing</a></li>
+                    @for (int i = 0; i < @skillsLength; i++){
+                        <li><a href="#">@skills[i].name</a></li>
+                        }
                 </ul>
             </div>
             <div>
@@ -33,16 +33,16 @@
             </div>
             <div>
                 <ul class="list-group">
-                    @for (int i = 0; i < 3; i++) {
+                    @for (int i = 0; i < @leadersLength; i++) {
                     <li class="list-group-item">
                         <div class="d-flex justify-content-start">
                             <div class="d-flex flex-column justify-content-center">
                                 <div href="#" class="thumbnail achievement-badge badge-select leaderboard-icon">
-                                    <img src="https://aj-heroportal-files.s3.amazonaws.com/Elf.png" alt="..." width="32px" height="32px">
+                                    <img src="@leaders[i].imageUrl" alt="..." width="32px" height="32px">
                                 </div>
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                                Miahkov Andrei
+                                @leaders[i].heroName
                             </div>
                         </div>
                     </li>
@@ -53,12 +53,32 @@
     </div>
 </div>
 
-@code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)  
+@code 
+{ 
+
+    int skillsLength = 0;
+    SkillModel[] skills;
+    LeaderModel[] leaders;
+    int leadersLength = 0;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender) 
+        if (firstRender)
         {
             await Interop.InitUIComponents();
         }
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (skillsLength == 0)
+        {
+            skills = await API.GetSkills();
+            skillsLength = skills.Length;
+            leaders = await API.GetTopLeaders();
+            leadersLength = leaders.Length;
+        }
+
+        StateHasChanged();
     }
 }

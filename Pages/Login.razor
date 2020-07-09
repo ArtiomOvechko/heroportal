@@ -3,6 +3,7 @@
 @inject IHeroApi API
 @inject NavigationManager Navigation
 @inject ILogger Logger
+@inject Blazored.LocalStorage.ILocalStorageService LocalStore
 
 @page "/login"
 
@@ -19,21 +20,21 @@
         </form>
     </div>
 </div>
-<div style="height: 100%" class="@LoadingClass"> 
-        <div class="d-flex justify-content-center" style="height: 100%;width: 100%;"> 
-            <div class="d-flex flex-column justify-content-center">
-                <div>
-                    <a href="#" style="border: none;" class="thumbnail achievement-badge">
-                        <img src="./images/SceletonMovesRight.gif" alt="..." width="128px" height="128px">
-                        <h1>Loading...</h1>
-                    </a>
-                </div>
+<div style="height: 100%" class="@LoadingClass">
+    <div class="d-flex justify-content-center" style="height: 100%;width: 100%;">
+        <div class="d-flex flex-column justify-content-center">
+            <div>
+                <a href="#" style="border: none;" class="thumbnail achievement-badge">
+                    <img src="./images/SceletonMovesRight.gif" alt="..." width="128px" height="128px">
+                    <h1>Loading...</h1>
+                </a>
             </div>
         </div>
+    </div>
 </div>
 
-@code 
-{
+@code
+{ 
     bool isLoading = false;
 
     LoginModel model;
@@ -41,28 +42,31 @@
     string ContentClass => isLoading ? "hidden" : null;
     string LoadingClass => isLoading ? null : "hidden";
 
-    protected override async Task OnAfterRenderAsync(bool firstRender) 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            API.LoggedIn += (sender, e) => 
+            API.LoggedIn += (sender, e) =>
             {
                 isLoading = false;
                 Navigation.NavigateTo("/");
             };
-            
+
             await API.LogOut();
         }
     }
 
-    private async Task LogIn() 
+    private async Task LogIn()
     {
         isLoading = true;
-        await API.LogIn(new LoginModel() 
+        await API.LogIn(new LoginModel()
         {
-            Email = "",
-            Password = ""
+            Email = model.Email,
+            Password = model.Password
         });
         isLoading = false;
     }
-}
+
+} 
+

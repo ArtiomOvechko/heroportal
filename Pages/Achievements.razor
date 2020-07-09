@@ -1,29 +1,44 @@
+@using Core
+
+@inject IInteropService Interop;
+@inject IHeroApi API;
+@inject ILogger Logger;
+
 @page "/achievements"
 
 <div class="page-header">
-  <h1>Achievements</h1>
+    <h1>Achievements</h1>
 </div>
 
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">All</h3>
-  </div>
-  <div class="panel-body" style="width: 100%">
-    <div class="d-flex flex-wrap justify-content-start">
-        @for (int i = 0; i < 50; i++) {
-        <div class="d-flex flex-column justify-content-between">
-            <div class="d-flex justify-content-center">
-                <div href="#" data-toggle="tooltip" title="Get 3 starts in a skill" class="thumbnail achievement-badge">
-                    <img src="https://aj-heroportal-files.s3.amazonaws.com/Wizard.png" alt="..." width="64px" height="64px">
-                    <div>Geek</div>
-                </div>
-            </div>
-        </div>
-        }
+    <div class="panel-heading">
+        <h3 class="panel-title">All</h3>
     </div>
-  </div>
+    <div class="panel-body" style="width: 100%">
+        <div class="d-flex flex-wrap justify-content-start">
+            @for (int i = 0; i < @modelLength; i++)
+            {
+<div class="d-flex flex-column justify-content-between">
+    <div class="d-flex justify-content-center">
+        <div href="#" data-toggle="tooltip" title="Get 3 starts in a skill" class="thumbnail achievement-badge">
+            <img src="@model[i].imageUrl" alt="..." width="64px" height="64px">
+            <div>@model[i].name</div>
+        </div>
+    </div>
+</div>}
+        </div>
+    </div>
 </div>
 
-@code {
-  
+@code { 
+    AchievementModel[] model;
+    int modelLength = 0;
+    protected override async Task OnParametersSetAsync()
+    {
+        if (modelLength == 0)
+        {
+            model = await API.GetAchievements();
+            modelLength = model.Length;
+        }
+    }
 }
