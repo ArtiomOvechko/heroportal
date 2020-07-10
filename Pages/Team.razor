@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-2 d-flex flex-column justify-content-center">
             <div class="d-flex justify-content-end">
-                <a href="#" class="thumbnail team-member-icon">
+                <a href="/@team[i].id" class="thumbnail team-member-icon">
                     <img src="@team[i].imageUrl" alt="..." width="128px" height="128px">
                 </a>
             </div>
@@ -65,21 +65,23 @@
                     <div class="d-flex flex-wrap justify-content-between">
                         @for (int i = 0; i < @badgesLength; i++)
                         {
-                        <div class="d-flex flex-column justify-content-between">
-                            <div class="d-flex justify-content-center">
-                                <div href="#" class="thumbnail achievement-badge badge-select badge-selected">
-                                    <img src="@badges[i].imageUrl" alt="..." width="64px" height="64px">
-                                    <div>@badges[i].name</div>
-                                    <span class="label label-warning">@badges[i].cost coins</span>
+                            var index = i;
+                            <div @onclick="() => SelectBadge(index)" class="d-flex flex-column justify-content-between">
+                                <div class="d-flex justify-content-center">
+                                    <div href="#" class="thumbnail achievement-badge @GetBadgeAvailabilityStyle(i) @GetBadgeSelectionStyle(i)">
+                                        <img src="@badges[i].imageUrl" alt="..." width="64px" height="64px">
+                                        <div>@badges[i].name</div>
+                                        <span class="label label-warning">@badges[i].cost coins</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>}
+                        }
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Send</button>
+                <button type="button" class="btn btn-primary"  data-dismiss="modal">Send</button>
             </div>
         </div>
     </div>
@@ -94,6 +96,35 @@
     int badgesLength = 0;
     int goldCoins = 0;
     int id = 0;
+
+    List<int> selectedBadges = new List<int>();
+
+    string GetBadgeAvailabilityStyle(int badgeIndex)
+    {
+        return goldCoins < badges[badgeIndex].cost && !selectedBadges.Any(x => x == badgeIndex) ? "badge-blocked" : "badge-select";
+    }
+
+    string GetBadgeSelectionStyle(int badgeIndex)
+    {
+        return selectedBadges.Any(x => x == badgeIndex) ? "badge-selected" : "";
+    }
+
+    void SelectBadge(int badgeIndex)
+    {
+        if (selectedBadges.Any(x => x == badgeIndex))
+        {
+            selectedBadges.Remove(badgeIndex);
+            goldCoins += badges[badgeIndex].cost;
+        }
+        else
+        {
+            if (goldCoins >= badges[badgeIndex].cost)
+            {
+                selectedBadges.Add(badgeIndex);
+                goldCoins -= badges[badgeIndex].cost;
+            }
+        }
+    }
 
     string GetRaceName(int? raceid)
     {
@@ -133,7 +164,7 @@
     {
         if (team == null || team.Length == 0)
         {
-            
+
             team = (await API.GetTeam()).ToArray();
             teamLength = team.Length;
             races = await API.GetRaces();

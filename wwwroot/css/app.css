@@ -38,17 +38,13 @@ html, body {
     text-decoration: none !important;
 }
 
-.badge-select:hover {
+.badge-select:hover,
+.badge-blocked:hover {
     cursor: pointer;
 }
 
 .badge-selected {
     border: lime 4px solid;
-}
-
-.badge-blocked:hover {
-    cursor: default;
-    border: none;
 }
 
 .badge-blocked > img {

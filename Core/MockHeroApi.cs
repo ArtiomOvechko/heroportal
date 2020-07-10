@@ -59,7 +59,7 @@ namespace Core
             return source.Task;
         }
 
-        public Task<ProfileModel> GetProfile()
+        public Task<ProfileModel> GetProfile(int? profileId = 0)
         {
             TaskCompletionSource<ProfileModel> result = new TaskCompletionSource<ProfileModel>();
 

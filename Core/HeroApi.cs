@@ -57,18 +57,27 @@ namespace Core
             throw new NotImplementedException();
         }
 
-        public async Task<ProfileModel> GetProfile()
+        public async Task<ProfileModel> GetProfile(int? profileId = null)
         {
             Task loggingTask = _logger.Info("Get Profile");
 
             return await loggingTask.ContinueWith(async (task) =>
             {
-                var localStorageValues = await _interopService.GetLocalStorageItem("auth");
-                if (localStorageValues == null)
+                int id = 0;
+                if (!profileId.HasValue || profileId == 0)
                 {
-                    localStorageValues = "0";
+                    var localStorageValues = await _interopService.GetLocalStorageItem("auth");
+                    if (localStorageValues == null)
+                    {
+                        localStorageValues = "0";
+                    }
+                    id = int.Parse(localStorageValues);
                 }
-                var id = int.Parse(localStorageValues);
+                else
+                {
+                    id = profileId.Value;
+                }
+
                 HttpResponseMessage response = await
                     _httpClient.GetAsync($"{BaseUrl}/Profile/{id}");
                 await _logger.Info(response.StatusCode.ToString());

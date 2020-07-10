@@ -5,28 +5,29 @@
 @inject ILogger Logger;
 
 @page "/"
+@page "/{customProfileId:int}"
 
 <div class="page-header">
-  <h1>Profile</h1>
+    <h1>Profile</h1>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-6">
             <div class="media">
-            <div class="media-left">
-                <a href="#">
-                <img class="media-object" src="@model.imageUrl" width="128px" height="128px" alt="...">
-                </a>
-            </div>
-            <div class="media-body">
-                <div class="d-flex align-content-stretch flex-column" style="height: 128px;">
-                    <div>
-                        <h2 class="profile-nickname">@model.nickName</h2>
-                        @model.name
-                    </div>
-                    <div class="profile-race mt-auto"><h3>@GetRaceName() @GetRankName()</h3></div>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="@model.imageUrl" width="128px" height="128px" alt="...">
+                    </a>
                 </div>
-            </div>
+                <div class="media-body">
+                    <div class="d-flex align-content-stretch flex-column" style="height: 128px;">
+                        <div>
+                            <h2 class="profile-nickname">@model.nickName</h2>
+                            @model.name
+                        </div>
+                        <div class="profile-race mt-auto"><h3>@GetRaceName() @GetRankName()</h3></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-6">
@@ -57,30 +58,30 @@
                     <div class="container">
                         @for (int i = 0; i < @skillsLength; i++)
                         {
-            <div class="row">
-                <div class="col-3">
-                    @skills[i].name
-                </div>
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="d-flex justify-content-end">
-                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName1" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName2" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName3" aria-hidden="true"></span>
-                    </div>
-                </div>
-                <div class="col-6 d-flex align-content-stretch flex-column">
-                    <div class="mb-auto">
-                        @skills[i].points points
-                    </div>
-                    <div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="@skills[i].points" aria-valuemin="0" aria-valuemax="100" style="width: @skills[i].points%;">
-                                <span class="sr-only">@skills[i].points% Complete</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>}
+                            <div class="row">
+                                <div class="col-3">
+                                    @skills[i].name
+                                </div>
+                                <div class="col-2 d-flex flex-column justify-content-center">
+                                    <div class="d-flex justify-content-end">
+                                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName1" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName2" aria-hidden="true"></span>
+                                        <span class="glyphicon glyphicon-star" style="color:@skills[i].colorName3" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-flex align-content-stretch flex-column">
+                                    <div class="mb-auto">
+                                        @skills[i].points points
+                                    </div>
+                                    <div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="@skills[i].points" aria-valuemin="0" aria-valuemax="100" style="width: @skills[i].points%;">
+                                                <span class="sr-only">@skills[i].points% Complete</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
                     </div>
                 </div>
             </div>
@@ -91,30 +92,30 @@
                 </div>
                 <div class="panel-body overflow-hidden" style="max-height:250px;">
                     <div class="container">
-            <div class="row">
-                <div class="col-3">
-                    Learning Python
-                </div>
-                <div class="col-2 d-flex flex-column justify-content-center">
-                    <div class="d-flex justify-content-end">
-                        <span class="glyphicon glyphicon-star" style="color:yellow" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-star" style="color:orange" aria-hidden="true"></span>
-                        <span class="glyphicon glyphicon-star" style="color:red" aria-hidden="true"></span>
-                    </div>
-                </div>
-                <div class="col-6 d-flex align-content-stretch flex-column">
-                    <div class="mb-auto">
-                        68 points
-                    </div>
-                    <div>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;">
-                                <span class="sr-only">68% Complete</span>
+                        <div class="row">
+                            <div class="col-3">
+                                Learning Python
+                            </div>
+                            <div class="col-2 d-flex flex-column justify-content-center">
+                                <div class="d-flex justify-content-end">
+                                    <span class="glyphicon glyphicon-star" style="color:yellow" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" style="color:orange" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-star" style="color:red" aria-hidden="true"></span>
+                                </div>
+                            </div>
+                            <div class="col-6 d-flex align-content-stretch flex-column">
+                                <div class="mb-auto">
+                                    68 points
+                                </div>
+                                <div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;">
+                                            <span class="sr-only">68% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
                     </div>
                 </div>
             </div>
@@ -126,12 +127,12 @@
                 <div class="panel-body d-flex justify-content-between">
                     @for (int i = 0; i < achievementsLength; i++)
                     {
-        <div>
-            <a href="#" data-toggle="tooltip" title="Get 3 starts in a skill" class="thumbnail achievement-badge">
-                <img src="@achievements[i].imageUrl" alt="..." width="64px" height="64px">
-                @achievements[i].name
-            </a>
-        </div>}
+                        <div>
+                            <a href="#" data-toggle="tooltip" title="Get 3 starts in a skill" class="thumbnail achievement-badge">
+                                <img src="@achievements[i].imageUrl" alt="..." width="64px" height="64px">
+                                @achievements[i].name
+                            </a>
+                        </div>}
                 </div>
             </div>
 
@@ -142,12 +143,12 @@
                 <div class="panel-body d-flex justify-content-between">
                     @for (int i = 0; i < badgesLength; i++)
                     {
-        <div>
-            <a href="#" class="thumbnail achievement-badge">
-                <img src="@badges[i].imageUrl" alt="..." width="64px" height="64px">
-                @badges[i].name
-            </a>
-        </div>}
+                        <div>
+                            <a href="#" class="thumbnail achievement-badge">
+                                <img src="@badges[i].imageUrl" alt="..." width="64px" height="64px">
+                                @badges[i].name
+                            </a>
+                        </div>}
                 </div>
             </div>
         </div>
@@ -170,11 +171,14 @@
     BadgeModel[] badges;
     int badgesLength = 0;
 
+    [Parameter]
+    public int customProfileId { get; set; }
+
     string[,] skillColor = new string[4, 3]
     {{ "yellow", "yellow", "orange" },
-            { "yellow", "yellow", "yellow" },
-            { "yellow", "yellow", "yellow" },
-            {"yellow", "orange", "orange" }};
+        { "yellow", "yellow", "yellow" },
+        { "yellow", "yellow", "yellow" },
+        {"yellow", "orange", "orange" }};
 
     string GetRaceName()
     {
@@ -212,29 +216,38 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        if (model.id == 0)
+        try
         {
-            model = await API.GetProfile();
+            await Logger.Info("Custom profile ID " + customProfileId);
+            if (model.id == 0)
+            {
+                model = await API.GetProfile(customProfileId);
 
-            skills = model.skills.ToArray();
-            skillsLength = skills.Length;
-            for (int i= 0; i < skills.Length; i++) {
-                skills[i].colorName1 = skillColor[i, 0];
-                skills[i].colorName2 = skillColor[i, 1];
-                skills[i].colorName3 = skillColor[i, 2];
+                skills = model.skills.ToArray();
+                skillsLength = skills.Length;
+                for (int i = 0; i < skills.Length; i++)
+                {
+                    skills[i].colorName1 = skillColor[i, 0];
+                    skills[i].colorName2 = skillColor[i, 1];
+                    skills[i].colorName3 = skillColor[i, 2];
+                }
+
+                achievements = model.achievements.ToArray();
+                achievementsLength = achievements.Length;
+
+                badges = model.badges.ToArray();
+                badgesLength = badges.Length;
+
+                races = await API.GetRaces();
+                ranks = await API.GetRanks();
             }
 
-            achievements = model.achievements.ToArray();
-            achievementsLength = achievements.Length;
-
-            badges = model.badges.ToArray();
-            badgesLength = badges.Length;
-
-            races = await API.GetRaces();
-            ranks = await API.GetRanks();
+            StateHasChanged();
         }
-
-        StateHasChanged();
+        catch (Exception ex)
+        {
+            await Logger.Info(ex.ToString());
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

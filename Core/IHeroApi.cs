@@ -24,7 +24,7 @@ namespace Core
 
         Task<string[]> GetAvatars();
 
-        Task<ProfileModel> GetProfile();
+        Task<ProfileModel> GetProfile(int? profileId = null);
 
         Task<ProfileModel> UpdateProfile(ProfileUpdateModel model);
 
